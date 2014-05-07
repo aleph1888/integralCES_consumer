@@ -13,8 +13,8 @@ class gatewayAPI extends integralCES\cesApi {
 			self::$instance = new gatewayAPI;
 
 			self::$instance->Config->consumerKey = "Jgjmunstxqc7LQV4bVBNXckdsW8vfuqP";
-			self::$instance->Config->consumerSecret = "2HRzPZ33TMfuSPMdvZtGTF5LmbNujAh3";
-			self::$instance->Config->baseUrl = "http://169.254.226.5/cesinterop/interop";
+			self::$instance->Config->consumerSecret = "3rLQiS63Wzsx3fsjWZefCTgtcj3MWw8u";
+			self::$instance->Config->baseUrl = "http://cicicdev.enredaos.net/cesinterop/gateway";
 
 		}
 
