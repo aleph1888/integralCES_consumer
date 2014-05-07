@@ -3,7 +3,7 @@ integralCES_consumer
 
 Testing development [server](http://cicicdev.enredaos.net/cesinterop)
 
-Drupal CES [issues]: (https://drupal.org/project/issues/1367140)
+Drupal CES [issues](https://drupal.org/project/issues/1367140)
 
 Dependencies
 ---------------
