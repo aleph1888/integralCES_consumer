@@ -1,11 +1,13 @@
 integralCES_consumer
 ====================
 
-Development integralCES gateway consumer
+Testing development [server](http://cicicdev.enredaos.net/cesinterop)
+
+Drupal CES [issues]: (https://drupal.org/project/issues/1367140)
 
 Dependencies
 ---------------
-[IntegralCES_interop)[https://github.com/aleph1888/integralCES_interop]
+[IntegralCES_interop](https://github.com/aleph1888/integralCES_interop)
 
 Doc
 ---------------
