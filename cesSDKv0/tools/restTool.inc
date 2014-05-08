@@ -38,18 +38,18 @@ class restTool {
 		curl_setopt($ch,CURLOPT_RETURNTRANSFER,true);
 		curl_setopt($ch, CURLOPT_VERBOSE, 1);
 	 
-		if($type == "POST"){
+		if( $type == "POST" ){
  
 			curl_setopt($ch, CURLOPT_POST, 1);
 			curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode( $parameters ) );  //añadimos el contenido en JSON
 			curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-type: application/json')); //añadimos el header para que acepte el JSON
 		}
-		else if($type == "GET"){
+		else if( $type == "GET" ){
 			$get_str = "";
-	                foreach( $params as $key=>$val )
+	                foreach( $parameters as $key=>$val )
         	              $get_str .= $key.'='. urlencode($val).'&';
 	                $get_str = substr($get_str, 0, -1);
-	                $url .= $get_str;
+	                $url .= '&' . $get_str;
 	                curl_setopt($ch, CURLOPT_POST, false);
 	                curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
 		}
