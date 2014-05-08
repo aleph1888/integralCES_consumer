@@ -26,21 +26,26 @@ class gatewayAPI extends integralCES\cesApi {
 
 $api =  gatewayAPI::get_instance();
 
-
+//Create payment
 $payment = new integralCES\Payment();
 $payment->buyer = "0001";
 $payment->seller = "0002";
 $payment->amount = 5;
 $payment->concept = "preuba de ppago via api";
 
+var_dump("Created payment.");
+echo "<br>";
+var_dump($payment);
+echo "<br>";
 $payment = $api->CreatePayment( $payment );
 
+//Retrieve
 $payment = $api->GetPayment( $payment->Id );
 
 $buyer = $api->GetUser( $payment->buyer );
 $seller = $api->GetUser ($payment->seller );
 
-var_dump("payment");
+var_dump("Retrieved payment.");
 echo "<br>";
 var_dump($payment);
 echo "<br>";
