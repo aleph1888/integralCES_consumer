@@ -31,12 +31,13 @@ class restTool {
 		$sig_method = new \OAuthSignatureMethod_HMAC_SHA1(); // Línea para oAuth
 		$req->sign_request($sig_method, $consumer, null);  // Línea para oAuth
  
+		//Perform query
 		$ch = curl_init();
 		$url = $req->to_url();
 
 		curl_setopt($ch,CURLOPT_RETURNTRANSFER,true);
 		curl_setopt($ch, CURLOPT_VERBOSE, 1);
- 
+	 
 		if($type == "POST"){
  
 			curl_setopt($ch, CURLOPT_POST, 1);
