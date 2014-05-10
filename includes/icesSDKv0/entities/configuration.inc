@@ -7,17 +7,20 @@ class Configuration {
 	/**
 	 * @var string 
 	 */
-	public $consumerKey;
+	public $consumer_key;
 
 	/**
 	 * @var string 
 	 */
-	public $consumerSecret;
+	public $consumer_secret;
 
 	/**
 	 * Base URL to integralCES
 	 * @var string 
 	 */
-	public $baseUrl;   
+	public $base_url;   
+
+	
+	public $callback_url;
     
 }
