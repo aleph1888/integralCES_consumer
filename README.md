@@ -5,6 +5,10 @@ Testing development [server](http://cicicdev.enredaos.net/cesinterop)
 
 Drupal CES [issues](https://drupal.org/project/issues/1367140)
 
+API
+-------------
+This consumer is just an example, you don't need to take it all, just the [API](https://github.com/aleph1888/integralCES_consumer/tree/master/includes/icesSDKv0)
+
 Dependencies
 ---------------
 [IntegralCES_interop](https://github.com/aleph1888/integralCES_interop)
