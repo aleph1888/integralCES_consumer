@@ -7,7 +7,7 @@ Whats this for
 ----------------------------------
 A [PHP API](https://github.com/aleph1888/integralCES_consumer/tree/master/includes/icesSDKv0) for [IntegralCES_interop](https://github.com/aleph1888/integralCES_interop). 
 
-Visit its Drupal integralCES [issue](https://drupal.org/project/issues/1367140).
+Visit its Drupal integralCES [issue](https://drupal.org/node/2215169).
 
 
 API & consumer
@@ -17,14 +17,14 @@ This consumer is just an example, you don't need to take it all, just the API [i
 
 Procedure
 --------------
-1) [Wrap API entrypoint](https://github.com/aleph1888/integralCES_consumer/blob/master/includes/myAPI.inc) with your own singleton class and configure it; you will need to [get in contact](integralces.net) to receive credentials.
+1) [Wrap API entrypoint](https://github.com/aleph1888/integralCES_consumer/blob/master/includes/myAPI.inc) with your own singleton class and configure it; you will need to get in contact (www.integralces.net) to receive credentials.
 
-2) Get the singleton and check for valid Client (representing your website) connection.
+2) Get the singleton...
 <pre>
  $api = myAPI::get_instance();
 </pre>
 
-Check for a valid connection before start making querys:
+...and check for a valid *Client* (representing your website) connection before start making querys:
 <pre>
  $myContextName = $api->check_client_connection();
 </pre>
@@ -35,10 +35,13 @@ Check for a valid connection before start making querys:
 </pre>
 
 What goes under:
-a) API will generate a *request token* by making curl request saving it on a [cookie](https://github.com/aleph1888/integralCES_consumer/blob/master/includes/icesSDKv0/tools/tokenTool.inc) and then use it to return the *login url* on integralCES server.
-b) After successfully login, CES Server will call your [API](https://github.com/aleph1888/integralCES_consumer/blob/master/includes/icesSDKv0/tools/requestAccessToken.php) providing an *authorization token* which will be saved in a cookie. 
-c) API will then request for an *access_token* and save it on a cookie.
-d) Then, API will redirect to *my_callback_url*.
+ a) API will generate a *request token* by making curl request saving it on a [cookie](https://github.com/aleph1888/integralCES_consumer/blob/master/includes/icesSDKv0/tools/tokenTool.inc) and then use it to return the *login url* on integralCES server.
+
+ b) After successfully login, CES Server will call your [API](https://github.com/aleph1888/integralCES_consumer/blob/master/includes/icesSDKv0/tools/requestAccessToken.php) providing an *authorization token* which will be saved in a cookie. 
+ 
+ c) API will then request for an *access_token* and save it on a cookie.
+ 
+ d) Then, API will redirect to *$my_callback_url* param.
 
 4) Check for your loged user:
 <pre>
@@ -55,7 +58,7 @@ d) Then, API will redirect to *my_callback_url*.
  $payment = $api->Payments->create_payment( $payment );
 </pre>
 
-CES Server will check that your *buyer* is the same that is logged in your site.
+NOTICE: iCES Server will check that your *buyer* is the same that is logged in your site.
 
 5.1) You can check now for your payment *id*, *state*, and any *errors notification*:
 <pre>
