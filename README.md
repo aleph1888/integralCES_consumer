@@ -12,12 +12,12 @@ Visit its Drupal integralCES [issue](https://drupal.org/project/issues/1367140).
 
 API & consumer
 -------------
-This consumer is just an example, you don't need to take it all, just the API [icesSDKv0](https://github.com/aleph1888/integralCES_consumer/tree/master/includes/icesSDKv0)
+This consumer is just an example, you don't need to take it all, just the API [icesSDKv0](https://github.com/aleph1888/integralCES_consumer/tree/master/includes/icesSDKv0).
 
 
 Procedure
 --------------
-1) [Wrap API entrypoint](https://github.com/aleph1888/integralCES_consumer/blob/master/includes/myAPI.inc) with your own singleton class and configure it; you will need to [get in contact](integralces.net) to get credentials.
+1) [Wrap API entrypoint](https://github.com/aleph1888/integralCES_consumer/blob/master/includes/myAPI.inc) with your own singleton class and configure it; you will need to [get in contact](integralces.net) to receive credentials.
 
 2) Get the singleton and check for valid Client (representing your website) connection.
 <pre>
@@ -35,7 +35,7 @@ Check for a valid connection before start making querys:
 </pre>
 
 What goes under:
-a) API will generate a *request token* by making curl request saving it on a [cookie]() and then use it to give you the *redirect_url*.
+a) API will generate a *request token* by making curl request saving it on a [cookie](https://github.com/aleph1888/integralCES_consumer/blob/master/includes/icesSDKv0/tools/tokenTool.inc) and then use it to return the *login url* on integralCES server.
 b) After successfully login, CES Server will call your [API](https://github.com/aleph1888/integralCES_consumer/blob/master/includes/icesSDKv0/tools/requestAccessToken.php) providing an *authorization token* which will be saved in a cookie. 
 c) API will then request for an *access_token* and save it on a cookie.
 d) Then, API will redirect to *my_callback_url*.
