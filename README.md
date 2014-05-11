@@ -1,7 +1,7 @@
 integralCES_consumer
 ====================
 
-Implements payment gateway interop for http://integralces.net
+Provides payment gateway API for http://integralces.net
 
 Whats this for
 ----------------------------------
