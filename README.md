@@ -19,9 +19,11 @@ Procedure
 
 2) Get the singleton and check for valid Client (representing your website) connection.
 <pre>
- // Get instance
  $api = myAPI::get_instance();
+</pre>
 
+Check for a valid connection before start making querys:
+<pre>
  $myContextName = $api->check_client_connection();
 </pre>
 
