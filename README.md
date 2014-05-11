@@ -1,6 +1,13 @@
 integralCES_consumer
 ====================
 
+Implements payment gateway interop for http://integralces.net
+
+Whats this for
+----------------------------------
+[A web service API for a payment gateway](https://wiki.enredaos.net/images/2/21/IntegralcesGeneric.png), that implements [OAuth 1.0](https://wiki.enredaos.net/index.php?title=File:Oauth-drupal.jpg) in [3-legged](https://wiki.enredaos.net/images/thumb/c/c2/OAuth_Process.jpg/800px-OAuth_Process.jpg) way by hooking [*services_resources*](http://drupalcontrib.org/api/drupal/contributions!services!services.services.api.php/function/hook_services_resources/6) in ces_interop.module
+
+
 Testing development [server](http://cicicdev.enredaos.net/cesinterop)
 
 Drupal CES [issues](https://drupal.org/project/issues/1367140)
