@@ -5,7 +5,7 @@ Implements payment gateway interop for http://integralces.net
 
 Whats this for
 ----------------------------------
-A [PHP API] for [IntegralCES_interop](https://github.com/aleph1888/integralCES_interop). Drupal CES [issue](https://drupal.org/project/issues/1367140)
+A [PHP API](https://github.com/aleph1888/integralCES_consumer/tree/master/includes/icesSDKv0) for [IntegralCES_interop](https://github.com/aleph1888/integralCES_interop). Drupal CES [issue](https://drupal.org/project/issues/1367140)
 
 
 API
