@@ -51,14 +51,14 @@ What goes under:
 5) Make a payment:
 <pre>
  $payment = new integralCES\Payment();
- $payment->buyer = $_POST["txtBuyer"];
- $payment->seller = $_POST["txtSeller"];
+ $payment->buyer = $api->Accounts->get( $_POST["txtBuyer"] );
+ $payment->seller = $api->Accounts->get( $_POST["txtSeller"] );
  $payment->amount = $_POST["txtAmount"];
  $payment->concept = $_POST["txtConcept"];
- $payment = $api->Payments->create_payment( $payment );
+ $payment = $api->Payments->create( $payment );
 </pre>
 
-NOTICE: iCES Server will check that your *buyer* is the same that is logged in your site.
+NOTICE: iCES Server will check that your *buyer* is the same that is logged in your site. You can check integralCES\Account created objects before sending payment if need to find errors.
 
 5.1) You can check now for your payment *id*, *state*, and any *errors notification*:
 <pre>
@@ -66,16 +66,15 @@ NOTICE: iCES Server will check that your *buyer* is the same that is logged in y
  $html = str_replace( '%%section_payment_id%%', "Payment id: " . $str_payment, $html );
 </pre>
 
-6) Retrieve a single payment by id
+6) Retrieve a single payment by id:
 <pre>
- $payment = $api->Payments->get_payment( $payment->id );
+ $payment = $api->Payments->get( $payment->id );
 </pre> 
 
-7) Retrieve a user by account name
+7) Retrieves a user and render its name and accounts:
 <pre>
- $user = $api->Users->get_user( $my_user_name );
- $buyer = $api->Users->get_user( $payment->buyer );
- $seller = $api->Users->get_user( $payment->seller );
+ $user = $api->Users->get( $my_user_id );
+ $user->accounts_to_ul()
 </pre>
 
 See on action
