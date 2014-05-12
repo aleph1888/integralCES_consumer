@@ -35,7 +35,7 @@ if ( isset( $logged_user->id) ) {
 
 	$render_section_user = 'No current logged in user.';
 	$render_section_user_accounts = "Login to list your accounts.";
-	$render_section_user_login_url = $api->get_authorization_url( 'http://169.254.226.5/integralCES_consumer/index.php' );
+	$render_section_user_login_url = $api->get_authorization_url( "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]" );
 
 }
 
