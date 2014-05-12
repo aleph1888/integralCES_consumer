@@ -27,22 +27,20 @@ $html = str_replace( '%%section_client_connection%%', $render_section_client_con
 // User section
 if ( isset( $logged_user->id) ) {
 
-	$render_section_user = $logged_user->exchange . '|' . $logged_user->name;
+	$render_section_user = $logged_user->name;
+	$render_section_user_accounts = $logged_user->accounts_to_ul();
 	$render_section_user_login_url = $api->Config->base_url . '/' . 'user/logout';
 
-	$html = str_replace( '%%section_payment_buyer_exchange%%', $logged_user->exchange, $html );
-	$html = str_replace( '%%section_payment_buyer%%', $logged_user->name, $html );
-	$html = str_replace( '%%section_payment_buyer_balance%%', $logged_user->balance, $html );
 } else {
+
 	$render_section_user = 'No current logged in user.';
+	$render_section_user_accounts = "Login to list your accounts.";
 	$render_section_user_login_url = $api->get_authorization_url( 'http://169.254.226.5/integralCES_consumer/index.php' );
 
-	$html = str_replace( '%%section_payment_buyer_exchange%%', "", $html );
-	$html = str_replace( '%%section_payment_buyer%%', "", $html );
-	$html = str_replace( '%%section_payment_buyer_balance%%', "", $html );
 }
 
 $html = str_replace( '%%section_user%%', $render_section_user, $html );
+$html = str_replace( '%%section_user_accounts%%', $render_section_user_accounts, $html );
 $html = str_replace( '%%section_user_login_url%%', $render_section_user_login_url, $html );
 
 // Process FORM
@@ -50,37 +48,42 @@ if (
 	isset( $_POST["txtBuyer"] ) &&
 	isset( $_POST["txtSeller"] ) &&
 	isset( $_POST["txtAmount"] ) &&
-	isset( $_POST["txtConcept"] ) 
+	isset( $_POST["txtConcept"] )
  ) {
-	
-	// Get POST sumbit to create a new payment
 
 	// create payment
 	$payment = new integralCES\Payment();
-	$payment->buyer = $_POST["txtBuyer"];
-	$payment->seller = $_POST["txtSeller"];
-	$payment->amount = $_POST["txtAmount"];
-	$payment->concept = $_POST["txtConcept"];
-	$payment = $api->Payments->create_payment( $payment );
 
-	// retrieve a payment
-	// $payment = $api->Payments->get_payment( $payment->id );
+	// check for accounts, you can stop process here if not getting two valid integralCES\Account objects
+	$payment->buyer_account = $api->Accounts->get( $_POST["txtBuyer"] );
+	$payment->seller_account = $api->Accounts->get( $_POST["txtSeller"] );
 
-	// retrieve related users
-	$buyer = $api->Users->get_user( $payment->buyer );
-	$seller = $api->Users->get_user( $payment->seller );
+	// fill data
+        $payment->amount = $_POST["txtAmount"];
+        $payment->concept = $_POST["txtConcept"];
+
+	// create payment
+	$payment = $api->Payments->create( $payment );
+
+	// retrieve a payment example
+	// $payment = $api->Payments->get( $payment->id );
 
 	// fill template
 	$str_payment = sprintf( "%s, with status %s %s", $payment->id, $payment->get_state(), $payment->result );
+
 	$html = str_replace( '%%section_payment_id%%', "Payment id: " . $str_payment, $html );
 
-	$html = str_replace( '%%section_payment_buyer_exchange%%', $buyer->exchange, $html );
-	$html = str_replace( '%%section_payment_buyer%%', $buyer->name, $html );
-	$html = str_replace( '%%section_payment_buyer_balance%%', $buyer->balance, $html );
+        $buyer_account_name = ( isset( $payment->buyer_account->name ) ? $payment->buyer_account->name : $_POST["txtBuyer"] );
+        $buyer_balance = ( isset( $payment->buyer_account->balance ) ? $payment->buyer_account->balance : 0  );
 
-	$html = str_replace( '%%section_payment_seller_exchange%%', $seller->exchange, $html );
-	$html = str_replace( '%%section_payment_seller%%', $seller->name, $html );
-	$html = str_replace( '%%section_payment_seller_balance%%', $seller->balance, $html );
+        $seller_account_name = ( isset( $payment->seller_account->name ) ? $payment->seller_account->name : $_POST["txtSeller"] );
+        $seller_balance = ( isset( $payment->seller_account->balance ) ? $payment->seller_account->balance : 0  );
+
+     	$html = str_replace( '%%section_payment_buyer%%', $buyer_account_name, $html );
+        $html = str_replace( '%%section_payment_buyer_balance%%', $buyer_balance, $html );
+
+     	$html = str_replace( '%%section_payment_seller%%', $seller_account_name, $html );
+        $html = str_replace( '%%section_payment_seller_balance%%', $seller_balance, $html );
 
 	$html = str_replace( '%%section_payment_amount%%', $payment->amount, $html );
 	$html = str_replace( '%%section_payment_concept%%', $payment->concept, $html );
@@ -89,16 +92,19 @@ if (
 
 } else {
 
-	// Set default values and wait for submit	
+	// set default values and wait for submit
 	$html = str_replace( '%%section_payment_id%%', "", $html );
 
-	$html = str_replace( '%%section_payment_seller_exchange%%', "", $html );
+	$html = str_replace( '%%section_payment_buyer%%', "", $html );
+	$html = str_replace( '%%section_payment_buyer_balance%%', "0", $html );
+
 	$html = str_replace( '%%section_payment_seller%%', "", $html );
 	$html = str_replace( '%%section_payment_seller_balance%%', "0", $html );
+
 	$html = str_replace( '%%section_payment_amount%%', "0", $html );
 	$html = str_replace( '%%section_payment_concept%%', "Some description", $html );
-
 	$html = str_replace( '%%section_action%%', "Fill form and make payment.", $html );
+
 }
 
 echo $html;

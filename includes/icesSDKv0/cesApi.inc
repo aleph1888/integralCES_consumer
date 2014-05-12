@@ -7,6 +7,7 @@ require_once( 'tools/restTool.inc' );
 
 require_once( 'entities/payments.inc' );
 require_once( 'entities/users.inc' );
+require_once( 'entities/accounts.inc' );
 
 
 /**
@@ -25,6 +26,7 @@ class cesApi {
 
 	public $Payments;	// @var integralCES\Payments
 	public $Users;		// @var integralCES\Users
+	public $Accounts;	// @var integralCES\Accounts
 
 	function __construct() {
 
@@ -34,6 +36,7 @@ class cesApi {
 		// entities
 		$this->Users = new Users( $this );
 		$this->Payments = new Payments( $this );
+		$this->Accounts = new Accounts( $this );
 
 	}
 

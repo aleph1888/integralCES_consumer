@@ -5,11 +5,50 @@ namespace integralCES;
 Class User {
 
 	public $id;		// @vars int 	CES identifier
-	public $balance;	// @vars int	Account balance
-	public $exchange;	// @vars string Account exchange 4-digit
 	public $name;		// @vars string Account name
+	public $accounts;	// @vars array of integralCES\Account
+
+
+	/**
+	 *
+	 * @params object $ob_user An object with at least fields:
+         *              (int) id,
+         *      	(string) name,
+         *              (array of objects) accounts [ see integralCES\Account ]
+	 */
+	public function __construct( $ob_user ) {
+
+                if ( $ob_user ) {
+                        $this->id = $ob_user->user_id;
+                        $this->name = $ob_user->user_name;
+
+                        foreach( $ob_user->accounts as $account )
+                                $this->accounts[] = new Account( $account );
+                }
+
+	}
+
+	
+	/**
+	 *
+	 * @retuns string representing <ul> lists of accounts
+	 */
+	public function accounts_to_ul() {
+
+		$str_output = "<ul>\n";
+		$li = "<li id='%s'> Name: %s | balance: %s</li>\n";
+		
+		if ( $this->accounts ) {
+			foreach( $this->accounts as $account )
+				$str_output .= sprintf( $li, $account->id, $account->name, $account->balance );
+		}
+		$str_output .= "</ul>\n";
+		return $str_output;
+
+	}
 
 }
+
 
 Class Users {
 
@@ -18,28 +57,6 @@ Class Users {
 	public function __construct ( $api ) {
 
 		$this->api = $api;
-	}
-
-
-	/**
-	 *
-	 * @params object $ob_user An object with at least fields {id, balance, name}
-	 *
-	 * @returns integraCES\User entity
-	 */
-	public function load_user_from_object( $ob_user ) {
-
-	       	$user = new User();
-
-		if ( $ob_user ) {
-	                $user->id = $ob_user->id;
-        	        $user->balance = $ob_user->balance;
-              		$user->exchange = substr( $ob_user->name, 0, 4 );	
-              		$user->name = substr( $ob_user->name, 4 );
-		}
-
-                return $user;
-		
 	}
 
 
@@ -62,7 +79,7 @@ Class Users {
 		$user = $restTool->execQuery( 'interop', $params, "GET" );
 
 		if ( $user)
-			return $this->load_user_from_object( json_decode( $user ) );
+			return new User( json_decode( $user ) );
 		else
 			return NULL;
 	
@@ -75,7 +92,7 @@ Class Users {
 	 *
 	 * @returns integralCES\User entity
 	 */
-        public function get_user( $user_id ) {
+        public function get( $user_id ) {
 
 		$restTool = new restTool( $this->api->Config );
 
@@ -86,7 +103,11 @@ Class Users {
 
                 $user = $restTool->execQuery( 'interop', $params, "GET" );
 
-		return $this->load_user_from_object( json_decode( $user ) );
+		if ( $user )
+			return $this->load_user_from_object( json_decode( $user ) );
+		else
+			return NULL;
+
 
         }
 

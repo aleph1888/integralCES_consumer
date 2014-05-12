@@ -15,7 +15,33 @@
 			<h2>icesSDKv0 <i>API</i></h2>
 		</main>
 		<hr>
-                <section title="Client">
+               <section title="Payment">
+			<form method="POST">
+				<header>%%section_action%%</header>
+				<h3>%%section_payment_id%%</h3>
+	        		<fieldset>
+		                	<legend>Payment</legend>
+				                Buyer: <input name="txtBuyer" value="%%section_payment_buyer%%" type="text"> <label>%%section_payment_buyer_balance%% ecos</label> <br> 
+				                Seller: <input name="txtSeller" value="%%section_payment_seller%%" type="text"> <label>%%section_payment_seller_balance%% ecos</label> <br>
+		                		Amount: <input name="txtAmount"  value="%%section_payment_amount%%" type="text">
+		        		        Concept: <input name="txtConcept"  value="%%section_payment_concept%%" value="Probando API" type="text"><br>
+			        </fieldset>
+			        <input type="submit" value="Pay">
+			</form>
+		</section>
+		<hr>
+		<section title="User">
+			<article>
+				<header>
+					<h1>User</h1>
+				</header>
+				<p><b>Logged in user</b>: %%section_user%%</p>
+				<p><b>Accounts</b>: %%section_user_accounts%%</p>
+				<p><b>Login/out url</b>: <a href="%%section_user_login_url%%">Go</a></p>
+			</article>
+		</section>
+		<hr>
+ 		<section title="Client">
                         <article>
                                 <header>
                                         <h1>Client</h1>
@@ -28,32 +54,7 @@
 				<p><b>connection</b>: %%section_client_connection%%</p>
                         </article>
                 </section>
-		<hr>
-		<section title="User">
-			<article>
-				<header>
-					<h1>User</h1>
-				</header>
-				<p><b>Logged in user</b>: %%section_user%%</p>
-				<p><b>Login/out url</b>: <a href="%%section_user_login_url%%">Go</a></p>
-			</article>
-		</section>
-		<hr>
-		<section title="Payment">
-			<form method="POST">
-				<header>%%section_action%%</header>
-				<h3>%%section_payment_id%%</h3>
-	        		<fieldset>
-		                	<legend>Payment</legend>
-				                Buyer: <input name="txtBuyer" value="%%section_payment_buyer_exchange%%%%section_payment_buyer%%" type="text"> <label>%%section_payment_buyer_balance%% ecos</label> <br> 
-				                Seller: <input name="txtSeller" value="%%section_payment_seller_exchange%%%%section_payment_seller%%" type="text"> <label>%%section_payment_seller_balance%% ecos</label> <br>
-		                		Amount: <input name="txtAmount"  value="%%section_payment_amount%%" type="text">
-		        		        Concept: <input name="txtConcept"  value="%%section_payment_concept%%" value="Probando API" type="text"><br>
-			        </fieldset>
-			        <input type="submit" value="Pay">
-			</form>
-		</section>
-		<hr>
+		<hr>		
 		<footer>
 			<p><b>Contact information</b>: <a href="mailto:ox@enredaos.net"> aleph1888 </a>
 			<p><b>Documentation</b>: <a href="https://wiki.enredaos.net/index.php?title=COOPFUND-DEV#API_PHP_for_payment_gateway">wiki.enredaos.net</a>

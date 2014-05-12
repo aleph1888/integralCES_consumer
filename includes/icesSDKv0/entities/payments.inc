@@ -6,20 +6,21 @@ Class Payment {
 
 	public $id;
 
-	public $buyer;		// @vars string Four digits (fill with 0)
-	public $seller;		// @vars string Four digits (fill with 0)	
-	public $amount;		// @vars int	Amount in cents
-	public $concept;	// @vars string	
+	public $buyer_account;		// @vars ingregralCES\Account
+	public $seller_account;		// @vars integralCES\Account	
+	public $amount;			// @vars int	Amount in cents
+	public $concept;		// @vars string	
 
 	public $state;
 	public $result;	// @vars string, to set if $state = 11
 	
+
 	function __construct( $data = NULL ) {
 
 		if ( $data ) {
 		        $this->id = $data->id;
-        	        $this->buyer = $data->buyer;
-                	$this->seller = $data->seller;
+        	        $this->buyer_account = $data->buyer_account;
+                	$this->seller_account = $data->seller_account;
 
 	                $this->amount = $data->amount;
 	                $this->concept = $data->concept;
@@ -63,6 +64,7 @@ Class Payments {
 
 	private $api;	// @vars integralCES\cesApi
 
+
 	public function __construct ( $api ) {
 		
 		$this->api = $api;
@@ -78,30 +80,50 @@ Class Payments {
 	*
 	* @return integralCES\Payment
 	*/
-        function create_payment( $payment ) {
+        function create( $payment ) {
 
                 $restTool = new restTool( $this->api->Config );
-                $params = (array) $payment;
+
+        	$error = "";
+        	if ( ! isset( $payment->buyer_account->name ) )
+                	$error = "Missing or invalid buyer account. ";
+        	
+        	if ( ! isset( $payment->seller_account->name ) )
+                	$error .= "Missing or invalid seller account. ";
+
+        	if ( $error ) {
+                	$payment->state = 11;
+                	$payment->result = $error;
+                	$payment->id= 0;
+			return $payment;
+		}
+
+                $params["buyer_account"] = $payment->buyer_account->name;
+                $params["seller_account"] = $payment->seller_account->name;
+                $params["amount"] = $payment->amount;
+                $params["concept"] = $payment->concept;
 
 		$result = $restTool->execQuery( 'interop', $params, "POST"  );
 
-                $json_result = json_decode($result);
+                $json_result = json_decode( $result );
 
 		// If we cannot cast into a json, then assume getting a php exception
 		if ( isset( $json_result ) ) {
+
 			$payment->id = $json_result->id;
 		        $payment->result = $json_result->result;
 	                $payment->state = $json_result->state;
+
+			//Update balances
+			$payment->buyer_account = $this->api->Accounts->get( $payment->buyer_account->name );
+			$payment->seller_account = $this->api->Accounts->get( $payment->seller_account->name );
+
 		} else {
-			// TODO: whats this?
-			$error = explode( "=>", $result)[1];
-			$error = str_replace ('<em class="placeholder">', '', $error );
-			$error = str_replace ('</em>', '', $error );
-			$error = explode( '"', $error )[1];			
 
 			$payment->id = 0;
 		        $payment->result = $error;
 	                $payment->state = 11;
+
 		}
 
                 return $payment;
@@ -115,7 +137,7 @@ Class Payments {
 	 *
 	 * @returns integralCES\Payment entity
 	 */
-        public function get_payment( $transaction_id ) {
+        public function get( $transaction_id ) {
 
 		$restTool = new restTool( $this->api->Config );
 
@@ -126,10 +148,10 @@ Class Payments {
 
                 $result = $restTool->execQuery( 'interop', $params, "GET" );
 
-		
-                $payment = new Payment( json_decode( $result ) );
-
-                return $payment;
+		if ( $result )
+                	return new Payment( json_decode( $result ) );
+		else 
+			return NULL;
 
         }	
 
