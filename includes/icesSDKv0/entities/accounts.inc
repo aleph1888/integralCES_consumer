@@ -15,7 +15,7 @@ Class Account {
          */
         function __construct( $ob_account = NULL ) {
 
-                if ( $ob_account ) {
+                if ( isset( $ob_account->id ) ) {
                         $this->id = $ob_account->id;
                         $this->name = $ob_account->name;
                         $this->balance = $ob_account->balance;
