@@ -79,7 +79,7 @@ NOTICE: iCES Server will check that your *buyer* is the same that is logged in y
 
 See on action
 ----------------
-Testing development [server](http://cicicdev.enredaos.net/integralCES_consumer/index.php)
+Testing development [server](http://cicicdev.enredaos.net:8080/integralCES_consumer/index.php)
 
 
 Doc
